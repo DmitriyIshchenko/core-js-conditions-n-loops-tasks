@@ -109,8 +109,31 @@ function isIsoscelesTriangle(a, b, c) {
  *  10  => X
  *  26  => XXVI
  */
-function convertToRomanNumerals(/* num */) {
-  throw new Error('Not implemented');
+
+/*
+On each step subtract decimal value from initial number and attach corresponding roman value to the result string:
+39 - 10(X) -> 29 - 10(X) -> 19 - 10 (X) -> 9 - 9 (IX) -> 0
+38 - 10 (X) -> 28 - 10 (X) -> 18 - 10 (X) -> 8 - 5 (V) -> 3 - 1(I) -> 2 - 1(I) -> 1 - 1 (I) -> 0
+
+It would be convenient to use Object.entries(), but arrays also have Array.entries(), which is unfortunately forbidden. So I had to use 2 arrays instead of object dictionary
+*/
+function convertToRomanNumerals(num) {
+  let number = num;
+
+  const roman = ['X', 'IX', 'V', 'IV', 'I'];
+  const decimal = [10, 9, 5, 4, 1];
+
+  let str = '';
+  let index = 0;
+  while (number) {
+    while (number >= decimal[index]) {
+      str += roman[index];
+      number -= decimal[index];
+    }
+
+    index += 1;
+  }
+  return str;
 }
 
 /**
