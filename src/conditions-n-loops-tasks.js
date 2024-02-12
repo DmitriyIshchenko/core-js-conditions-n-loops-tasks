@@ -404,10 +404,13 @@ function sortByAsc(arr) {
  *  '012345', 3 => '024135' => '043215' => '031425'
  *  'qwerty', 3 => 'qetwry' => 'qtrewy' => 'qrwtey'
  */
+
+// The trick is to figure out the number of iterations before returning to the initial state, and then cut off the excessive iterations
 function shuffleChar(str, iterations) {
   let resultString = str;
+  let iterationsCountdown = iterations;
 
-  for (let iter = 0; iter < iterations; iter += 1) {
+  while (iterationsCountdown) {
     let left = '';
     let right = '';
 
@@ -419,6 +422,12 @@ function shuffleChar(str, iterations) {
       }
     }
     resultString = left + right;
+    iterationsCountdown -= 1;
+
+    if (resultString === str) {
+      const iterationsToLoop = iterations - iterationsCountdown;
+      iterationsCountdown = iterations % iterationsToLoop;
+    }
   }
 
   return resultString;
