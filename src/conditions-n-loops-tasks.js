@@ -448,7 +448,7 @@ function getNearestBigger(number) {
   }
 
   return [...left, ...right.sort((a, b) => a - b)]
-    .toReversed()
+    .reverse()
     .reduce((acc, cur, index) => acc + cur * 10 ** index, 0);
 }
 
