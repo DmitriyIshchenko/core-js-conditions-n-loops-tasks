@@ -410,8 +410,46 @@ function shuffleChar(/* str, iterations */) {
  * @param {number} number The source number
  * @returns {number} The nearest larger number, or original number if none exists.
  */
-function getNearestBigger(/* number */) {
-  throw new Error('Not implemented');
+
+// It is such a headache not to use array methods that share names with string methods, like slice() or reverse()
+function getNearestBigger(number) {
+  let num = number;
+  const digits = [];
+
+  while (num > 0) {
+    digits.unshift(num % 10);
+    num = Math.floor(num / 10);
+  }
+
+  let splitIndex;
+  for (let i = digits.length; i > 0; i -= 1) {
+    if (digits[i - 1] < digits[i]) {
+      splitIndex = i;
+      break;
+    }
+  }
+
+  if (!splitIndex) return number;
+
+  const left = [];
+  const right = [];
+  for (let i = 0; i < digits.length; i += 1) {
+    if (i < splitIndex) left.push(digits[i]);
+    else right.push(digits[i]);
+  }
+
+  for (let i = right.length - 1; i >= 0; i -= 1) {
+    if (right[i] > left[left.length - 1]) {
+      const tmp = left[left.length - 1];
+      left[left.length - 1] = right[i];
+      right[i] = tmp;
+      break;
+    }
+  }
+
+  return [...left, ...right.sort((a, b) => a - b)]
+    .toReversed()
+    .reduce((acc, cur, index) => acc + cur * 10 ** index, 0);
 }
 
 module.exports = {
