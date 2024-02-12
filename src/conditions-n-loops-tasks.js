@@ -373,8 +373,50 @@ function getSpiralMatrix(size) {
  *    [7, 8, 9]         [9, 6, 3]
  *  ]                 ]
  */
-function rotateMatrix(/* matrix */) {
-  throw new Error('Not implemented');
+
+/*
+
+  1. Transpose (major diagonal for clockwise):
+    123    147
+    456 -> 258
+    789    369
+
+  2. Reverse each row:
+    147    741
+    258 -> 852
+    369    963
+*/
+
+function swap(array, index1, index2) {
+  const arr = array;
+  const tmp = arr[index1];
+  arr[index1] = arr[index2];
+  arr[index2] = tmp;
+}
+
+function reverseInPlace(array) {
+  const middle = Math.floor(array.length / 2);
+
+  for (let i = 0; i < middle; i += 1) {
+    swap(array, i, array.length - i - 1);
+  }
+}
+
+function rotateMatrix(mat) {
+  const matrix = mat;
+  const size = matrix.length;
+
+  for (let row = 0; row < size; row += 1) {
+    for (let col = row; col < size; col += 1) {
+      const temp = matrix[row][col];
+      matrix[row][col] = matrix[col][row];
+      matrix[col][row] = temp;
+    }
+  }
+
+  for (let i = 0; i < size; i += 1) {
+    reverseInPlace(matrix[i]);
+  }
 }
 
 /**
