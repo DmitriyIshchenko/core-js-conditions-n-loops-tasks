@@ -516,7 +516,7 @@ function shuffleChar(str, iterations) {
  * @returns {number} The nearest larger number, or original number if none exists.
  */
 
-// It is such a headache not to use array methods that share names with string methods, like slice() or reverse()
+// It is such a headache not to use array methods that share names with string methods, like slice()
 function getNearestBigger(number) {
   let num = number;
   const digits = [];
@@ -548,6 +548,7 @@ function getNearestBigger(number) {
       const tmp = left[left.length - 1];
       left[left.length - 1] = right[i];
       right[i] = tmp;
+
       break;
     }
   }
